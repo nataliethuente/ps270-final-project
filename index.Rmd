@@ -1,6 +1,6 @@
 ---
 title: "PS270 Final Project"
-author: "Your Name Here"
+author: "Natalie Thuente"
 description: "My final project"
 output:
   distill::distill_article:
@@ -11,4 +11,4 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+I am interested in exploring data related to social media Influence on Political Campaigns and elections. Many social media algorithms tend to repeatedly show users similar content to that which they have engaged with previously. This can be extremely influential, as content can become highly polarized and many individuals use social media as their primary source of news and current events.
