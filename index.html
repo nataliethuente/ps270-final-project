@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["facebook-fact-check.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1544,8 +1544,37 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to social media Influence on Political Campaigns and elections. Many social media algorithms tend to repeatedly show users similar content to that which they have engaged with previously. This can be extremely influential, as content can become highly polarized and many individuals use social media as their primary source of news and current events.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>10/13 Checkpoint 2:</p>
+<p>Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other?
+My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent Republican political events and the overall negatively charged hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views in an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
+Explanatory variable of interest: Partisan affiliation of the social media post, measured by the partisan identity of the account creating the post
+Response variable: Accuracy of post
+To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts</p>
+<p>data from: <a href="https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data" class="uri">https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data</a></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='va'>facebook</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"facebook-fact-check.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>facebook</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2,282 × 12
+   account_id post_id Category   Page      `Post URL` `Date Published`
+        &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;date&gt;          
+ 1    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 2    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 3    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 4    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 5    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 6    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 7    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 8    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+ 9    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+10    1.84e14 1.04e15 mainstream ABC News… https://w… 2016-09-19      
+# ℹ 2,272 more rows
+# ℹ 6 more variables: `Post Type` &lt;chr&gt;, Rating &lt;chr&gt;, Debate &lt;chr&gt;,
+#   share_count &lt;dbl&gt;, reaction_count &lt;dbl&gt;, comment_count &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
