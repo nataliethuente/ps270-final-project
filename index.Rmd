@@ -8,7 +8,25 @@ output:
 ---
 
 
-
 ## Project thoughts
 
-I am interested in exploring data related to social media Influence on Political Campaigns and elections. Many social media algorithms tend to repeatedly show users similar content to that which they have engaged with previously. This can be extremely influential, as content can become highly polarized and many individuals use social media as their primary source of news and current events.
+10/13 Checkpoint 2:
+
+State your research question.
+Formulate a hypothesis related to the research question. This hypothesis should be rooted in some sort of theory. In other words, you need to present a plausible story why the hypothesis might be true. Often, this is in the form of a behaviorial or institutional explanation. As social scientists, we are not interested in idiosyncratic explanations; we want to understand systematic patterns and relationships!
+Describe your explanatory variable(s) of interest and how it is measured. Importantly, we need to observe variation in this variable in order to study it!
+Describe your outcome variable of interest and how it is measured.
+What observed pattern in the data would provide support for your hypothesis? More importantly, what observed pattern would disprove your hypothesis?
+
+Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other?
+My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent Republican political events and the overall negatively charged hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views in an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
+Explanatory variable of interest: Partisan affiliation of the social media post, measured by the partisan identity of the account creating the post
+Response variable: Accuracy of post
+To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts
+
+```{r}
+library(tidyverse)
+facebook <- read_csv("facebook-fact-check.csv")
+facebook
+```
+
