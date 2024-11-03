@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["facebook-fact-check.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["facebook-fact-check.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1543,7 +1543,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<p>##10/13 Checkpoint 2:</p>
+<p>#10/13 Checkpoint 2:</p>
 <p>Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other?
 My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent Republican political events and the overall negatively charged hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views in an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
 Explanatory variable of interest: Partisan affiliation of the social media post, measured by the partisan identity of the account creating the post
@@ -1573,7 +1573,7 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 # ℹ 6 more variables: `Post Type` &lt;chr&gt;, Rating &lt;chr&gt;, Debate &lt;chr&gt;,
 #   share_count &lt;dbl&gt;, reaction_count &lt;dbl&gt;, comment_count &lt;dbl&gt;</code></pre>
 </div>
-<p>##11/3 Checkpoint 3:</p>
+<p>#11/3 Checkpoint 3:</p>
 <p>This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party. Below is a brief description of the criteria used to classify these posts.</p>
 <p>Truth Categories:</p>
 <ol start="4" type="1">
@@ -1582,6 +1582,7 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 <li><p>Mostly False: Most or all of the information in the post or in the link being shared is inaccurate. This should also be used when the central claim being made is false.</p></li>
 <li><p>No Factual Content: This rating is used for posts that are pure opinion, comics, satire, or any other posts that do not make a factual claim. This is also the category to use for posts that are of the “Like this if you think…” variety.</p></li>
 </ol>
+<p>Count the number of posts of each party for each of the accuracy classifications.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>parties</span> <span class='op'>&lt;-</span> <span class='va'>facebook</span> <span class='op'>|&gt;</span></span>
@@ -1593,35 +1594,28 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 <span>           <span class='va'>Rating</span> <span class='op'>==</span> <span class='st'>"mostly false"</span> <span class='op'>~</span> <span class='fl'>2</span>,</span>
 <span>           <span class='va'>Rating</span> <span class='op'>==</span> <span class='st'>"no factual content"</span> <span class='op'>~</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Party</span>, <span class='va'>accuracy_rating</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='va'>parties</span></span></code></pre>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 8 × 3
-# Groups:   Party [2]
-  Party      accuracy_rating     n
-  &lt;chr&gt;                &lt;dbl&gt; &lt;int&gt;
-1 Democrat                 1   116
-2 Democrat                 2    22
-3 Democrat                 3    68
-4 Democrat                 4   265
-5 Republican               1    96
-6 Republican               2    82
-7 Republican               3   169
-8 Republican               4   319</code></pre>
+</div>
+<p>Now that the data is organized by party and accuracy rating, creating a bar graph to compare the results.</p>
+<div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>accuracy_plot</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>accuracy_rating</span>, y <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='va'>Party</span><span class='op'>)</span>, position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Democrat"</span> <span class='op'>=</span> <span class='st'>"steelblue1"</span>, <span class='st'>"Republican"</span> <span class='op'>=</span> <span class='st'>"indianred1"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Social Media Post Accuracy per Party"</span>, x <span class='op'>=</span> <span class='st'>"Accuracy Rating"</span>, y <span class='op'>=</span> <span class='st'>"Number of posts"</span>, caption <span class='op'>=</span> <span class='st'>"4: Mostly True</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Social Media Post Accuracy per Party"</span>, </span>
+<span>  x <span class='op'>=</span> <span class='st'>"Accuracy Rating"</span>, </span>
+<span>  y <span class='op'>=</span> <span class='st'>"Number of posts"</span>, </span>
+<span>  caption <span class='op'>=</span> <span class='st'>"4: Mostly True</span></span>
 <span><span class='st'>       3: Mixture of True and False</span></span>
 <span><span class='st'>       2: Mostly False</span></span>
 <span><span class='st'>       1: No Factual Content"</span><span class='op'>)</span></span>
 <span><span class='va'>accuracy_plot</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
