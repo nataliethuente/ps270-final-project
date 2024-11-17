@@ -8,7 +8,7 @@ output:
 ---
 
 
-#10/13 Checkpoint 2:
+# 10/13 Checkpoint 2:
 
 Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other?
 My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent Republican political events and the overall negatively charged hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views in an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
@@ -24,7 +24,7 @@ facebook <- read_csv("facebook-fact-check.csv")
 facebook
 ```
 
-#11/3 Checkpoint 3:
+# 11/3 Checkpoint 3:
 
 This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party. Below is a brief description of the criteria used to classify these posts.
 
@@ -49,15 +49,17 @@ parties <- facebook |>
            Rating == "mostly true" ~ 4,
            Rating == "mixture of true and false" ~ 3,
            Rating == "mostly false" ~ 2,
-           Rating == "no factual content" ~ 1)) |>
+           Rating == "no factual content" ~ 1))
+party_accuracy <- parties |>
   group_by(Party, accuracy_rating) |>
   summarize(n = n())
+party_accuracy
 ```
 
 Now that the data is organized by party and accuracy rating, creating a bar graph to compare the results.
 
 ```{r}
-accuracy_plot <- parties |>
+accuracy_plot <- party_accuracy |>
   ggplot(aes(x = accuracy_rating, y = n)) +
   geom_bar(stat = "identity", aes(fill = Party), position = position_dodge()) +
   scale_fill_manual(values = c("Democrat" = "steelblue1", "Republican" = "indianred1")) +
@@ -72,5 +74,16 @@ accuracy_plot
 ```
 
 
+# 11/17 Checkpoint 4:
+
+
+To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a higher accuracy rating than the media produced by the Democratic Party.
+
+```{r}
+analysis <- parties |>
+  group_by(Party) |>
+    summarize("Average Accuracy Rating" = mean(accuracy_rating))
+knitr::kable(analysis)
+```
 
 
