@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["facebook-fact-check.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["facebook-fact-check.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/header-attrs-2.29/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1543,13 +1543,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h1 id="checkpoint-2">10/13 Checkpoint 2:</h1>
-<p>Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other?
-My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent Republican political events and the overall negatively charged hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views in an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
-Explanatory variable of interest: Partisan affiliation of the social media post, measured by the partisan identity of the account creating the post
-Response variable: Accuracy of post, this is measured by raters at Buzzfeed, given the same criteria for categorization and randomized posts.
-To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts</p>
-<p>data from: <a href="https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data" class="uri">https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data</a></p>
+<h1 id="introduction">Introduction</h1>
+<p>Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other? This research is studying the relationship between political partisanship (Republican or Democrat) and accuracy of social media posts, this is to determine if there is a causal relationship between an individual’s political affiliation and likelihood to spread inaccurate information. The data supporting this research has been obtained from: “<a href="https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data" class="uri">https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data</a>”.</p>
+<p>My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent political events and the overall tone of hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, contesting the validity of the election, ultimately culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views and an abundance of emotional content could explain a lack of accuracy in Republican social media posts.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
@@ -1573,8 +1569,8 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 # ℹ 6 more variables: `Post Type` &lt;chr&gt;, Rating &lt;chr&gt;, Debate &lt;chr&gt;,
 #   share_count &lt;dbl&gt;, reaction_count &lt;dbl&gt;, comment_count &lt;dbl&gt;</code></pre>
 </div>
-<h1 id="checkpoint-3">11/3 Checkpoint 3:</h1>
-<p>This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party. Below is a brief description of the criteria used to classify these posts.</p>
+<h1 id="data-describe-data-source-key-dependent-and-independent-variables-how-they-are-measured-plot-summarizing-dependent-variable">Data: describe data source, key dependent and independent variables, how they are measured, plot summarizing dependent variable</h1>
+<p>My research was a cross-sectional design with data from: “<a href="https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data" class="uri">https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data</a>”. The explanatory variable of interest is the partisan affiliation of the social media post, which was determined by the partisan identity of the account creating the post. The response variable was the accuracy of post. This was measured by raters at Buzzfeed. Each rater was given a rotating selection of accounts from different parties on each day, with each rater being given the same criteria for how to review posts.</p>
 <p>Truth Categories:</p>
 <ol start="4" type="1">
 <li><p>Mostly True: The post and any related link or image are based on factual information and portray it accurately. This lets them interpret the event/info in their own way, so long as they do not misrepresent events, numbers, quotes, reactions, etc., or make information up. This rating does not allow for unsupported speculation or claims.</p></li>
@@ -1582,6 +1578,8 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 <li><p>Mostly False: Most or all of the information in the post or in the link being shared is inaccurate. This should also be used when the central claim being made is false.</p></li>
 <li><p>No Factual Content: This rating is used for posts that are pure opinion, comics, satire, or any other posts that do not make a factual claim. This is also the category to use for posts that are of the “Like this if you think…” variety.</p></li>
 </ol>
+<p>To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts</p>
+<p>This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party.</p>
 <p>Count the number of posts of each party for each of the accuracy classifications.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1611,7 +1609,7 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 7 Republican               3   169
 8 Republican               4   319</code></pre>
 </div>
-<p>Now that the data is organized by party and accuracy rating, creating a bar graph to compare the results.</p>
+<p>Now that the data is organized by party and accuracy rating, this is a bar graph comparing the results.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>accuracy_plot</span> <span class='op'>&lt;-</span> <span class='va'>party_accuracy</span> <span class='op'>|&gt;</span></span>
@@ -1629,8 +1627,8 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<h1 id="checkpoint-4">11/17 Checkpoint 4:</h1>
-<p>To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party was had a higher accuracy rating than that produced by the Democratic Party.</p>
+<h1 id="results-scatterplot-barplot-or-boxplot-with-regression-and-paragraph-summarizing-results">Results: scatterplot, barplot or boxplot with regression and paragraph summarizing results</h1>
+<p>To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a higher accuracy rating than the media produced by the Democratic Party.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
@@ -1657,6 +1655,7 @@ To disprove my hypothesis, the amount of inaccurate posts created by Democratic 
 </tbody>
 </table>
 </div>
+<h1 id="conclusion">Conclusion</h1>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -7,16 +7,12 @@ output:
     self_contained: false
 ---
 
+# Introduction 
 
-# 10/13 Checkpoint 2:
+Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other? This research is studying the relationship between political partisanship (Republican or Democrat) and accuracy of social media posts, this is to determine if there is a causal relationship between an individual's political affiliation and likelihood to spread inaccurate information. The data supporting this research has been obtained from: "https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data".
 
-Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other?
-My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent Republican political events and the overall negatively charged hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views in an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
-Explanatory variable of interest: Partisan affiliation of the social media post, measured by the partisan identity of the account creating the post
-Response variable: Accuracy of post, this is measured by raters at Buzzfeed, given the same criteria for categorization and randomized posts.
-To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts
+My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent political events and the overall tone of hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, contesting the validity of the election, ultimately culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views and an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
 
-data from: https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data
 
 ```{r}
 library(tidyverse)
@@ -24,9 +20,10 @@ facebook <- read_csv("facebook-fact-check.csv")
 facebook
 ```
 
-# 11/3 Checkpoint 3:
+# Data: describe data source, key dependent and independent variables, how they are measured, plot summarizing dependent variable
 
-This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party. Below is a brief description of the criteria used to classify these posts.
+
+My research was a cross-sectional design with data from: "https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data". The explanatory variable of interest is the partisan affiliation of the social media post, which was determined by the partisan identity of the account creating the post. The response variable was the accuracy of post. This was measured by raters at Buzzfeed. Each rater was given a rotating selection of accounts from different parties on each day, with each rater being given the same criteria for how to review posts.
 
 Truth Categories:
 
@@ -37,6 +34,12 @@ Truth Categories:
 (2) Mostly False: Most or all of the information in the post or in the link being shared is inaccurate. This should also be used when the central claim being made is false.
 
 (1) No Factual Content: This rating is used for posts that are pure opinion, comics, satire, or any other posts that do not make a factual claim. This is also the category to use for posts that are of the “Like this if you think…” variety.
+
+
+To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts
+
+
+This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party.
 
 
 Count the number of posts of each party for each of the accuracy classifications.
@@ -56,7 +59,8 @@ party_accuracy <- parties |>
 party_accuracy
 ```
 
-Now that the data is organized by party and accuracy rating, creating a bar graph to compare the results.
+
+Now that the data is organized by party and accuracy rating, this is a bar graph comparing the results.
 
 ```{r}
 accuracy_plot <- party_accuracy |>
@@ -74,7 +78,7 @@ accuracy_plot
 ```
 
 
-# 11/17 Checkpoint 4:
+# Results: scatterplot, barplot or boxplot with regression and paragraph summarizing results
 
 
 To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a higher accuracy rating than the media produced by the Democratic Party.
@@ -86,4 +90,5 @@ analysis <- parties |>
 knitr::kable(analysis)
 ```
 
+# Conclusion
 
