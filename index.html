@@ -1578,9 +1578,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>Mostly False: Most or all of the information in the post or in the link being shared is inaccurate. This should also be used when the central claim being made is false.</p></li>
 <li><p>No Factual Content: This rating is used for posts that are pure opinion, comics, satire, or any other posts that do not make a factual claim. This is also the category to use for posts that are of the “Like this if you think…” variety.</p></li>
 </ol>
-<p>To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts</p>
-<p>This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party.</p>
-<p>Count the number of posts of each party for each of the accuracy classifications.</p>
+<p>To disprove my hypothesis, the percentage of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts</p>
+<p>This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the percentage of total posts that fall under this category for each party.</p>
+<p>Count the percentage of total posts that fall under each accuracy classification for each party.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>parties</span> <span class='op'>&lt;-</span> <span class='va'>facebook</span> <span class='op'>|&gt;</span></span>
@@ -1592,22 +1592,23 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>           <span class='va'>Rating</span> <span class='op'>==</span> <span class='st'>"mostly false"</span> <span class='op'>~</span> <span class='fl'>2</span>,</span>
 <span>           <span class='va'>Rating</span> <span class='op'>==</span> <span class='st'>"no factual content"</span> <span class='op'>~</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
 <span><span class='va'>party_accuracy</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Party</span>, <span class='va'>accuracy_rating</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Party</span>, <span class='va'>accuracy_rating</span><span class='op'>)</span>  <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>Party</span> <span class='op'>==</span> <span class='st'>"Democrat"</span>, <span class='va'>n</span><span class='op'>/</span><span class='fl'>471</span>, <span class='va'>n</span><span class='op'>/</span><span class='fl'>666</span><span class='op'>)</span><span class='op'>)</span> </span>
 <span><span class='va'>party_accuracy</span></span></code></pre>
 </div>
 <pre><code># A tibble: 8 × 3
 # Groups:   Party [2]
-  Party      accuracy_rating     n
-  &lt;chr&gt;                &lt;dbl&gt; &lt;int&gt;
-1 Democrat                 1   116
-2 Democrat                 2    22
-3 Democrat                 3    68
-4 Democrat                 4   265
-5 Republican               1    96
-6 Republican               2    82
-7 Republican               3   169
-8 Republican               4   319</code></pre>
+  Party      accuracy_rating      n
+  &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;
+1 Democrat                 1 0.246 
+2 Democrat                 2 0.0467
+3 Democrat                 3 0.144 
+4 Democrat                 4 0.563 
+5 Republican               1 0.144 
+6 Republican               2 0.123 
+7 Republican               3 0.254 
+8 Republican               4 0.479 </code></pre>
 </div>
 <p>Now that the data is organized by party and accuracy rating, this is a bar graph comparing the results.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1616,9 +1617,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>accuracy_rating</span>, y <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='va'>Party</span><span class='op'>)</span>, position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Democrat"</span> <span class='op'>=</span> <span class='st'>"steelblue1"</span>, <span class='st'>"Republican"</span> <span class='op'>=</span> <span class='st'>"indianred1"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Social Media Post Accuracy per Party"</span>, </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Percentage Social Media Post Accuracy per Party"</span>, </span>
 <span>  x <span class='op'>=</span> <span class='st'>"Accuracy Rating"</span>, </span>
-<span>  y <span class='op'>=</span> <span class='st'>"Number of posts"</span>, </span>
+<span>  y <span class='op'>=</span> <span class='st'>"Proportion of total posts"</span>, </span>
 <span>  caption <span class='op'>=</span> <span class='st'>"4: Mostly True</span></span>
 <span><span class='st'>       3: Mixture of True and False</span></span>
 <span><span class='st'>       2: Mostly False</span></span>
@@ -1628,7 +1629,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
 <h1 id="results-scatterplot-barplot-or-boxplot-with-regression-and-paragraph-summarizing-results">Results: scatterplot, barplot or boxplot with regression and paragraph summarizing results</h1>
-<p>To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a higher accuracy rating than the media produced by the Democratic Party.</p>
+<p>To better visualize the results, I have added a linear regression of the data by creating a binary variable to represent Party. Because I have set the Democrat value to ‘1’ and the Republican value to ‘0’, a positive value would indicate higher average ratings for the Republican Party, and a negative value would indicate the opposite, higher average ratings for the Democratic Party.</p>
+<p>Table summarizing the Average Accuracy Rating for each Party.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
@@ -1655,8 +1657,37 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
+<p>Linear Regression analyzing the relationship between Partisan Affiliation and Accuracy of social media posts.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>parties</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>PartyBinary <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>Party</span> <span class='op'>==</span> <span class='st'>"Republican"</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>accuracy_rating</span> <span class='op'>~</span> <span class='va'>PartyBinary</span>, data <span class='op'>=</span> <span class='va'>parties</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = accuracy_rating ~ PartyBinary, data = parties)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.0676 -1.0676  0.9324  0.9324  0.9767 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.02335    0.05355  56.464   &lt;2e-16 ***
+PartyBinary  0.04421    0.06996   0.632    0.528    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.162 on 1135 degrees of freedom
+Multiple R-squared:  0.0003517, Adjusted R-squared:  -0.000529 
+F-statistic: 0.3994 on 1 and 1135 DF,  p-value: 0.5275</code></pre>
+</div>
+<p>The results of the linear regression indicate the average accuracy rating for the Democratic party is 3.023, as this is the Intercept, and the Democratic party was assigned the value ‘0’. The PartyBinary coefficient of 0.04421 indicates</p>
+<p>To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a slightly higher accuracy rating on average than the media produced by the Democratic Party.</p>
 <h1 id="conclusion">Conclusion</h1>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

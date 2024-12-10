@@ -36,13 +36,13 @@ Truth Categories:
 (1) No Factual Content: This rating is used for posts that are pure opinion, comics, satire, or any other posts that do not make a factual claim. This is also the category to use for posts that are of the “Like this if you think…” variety.
 
 
-To disprove my hypothesis, the amount of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts
+To disprove my hypothesis, the percentage of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts
 
 
-This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the number of posts that fall under this category for each party.
+This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the percentage of total posts that fall under this category for each party.
 
 
-Count the number of posts of each party for each of the accuracy classifications.
+Count the percentage of total posts that fall under each accuracy classification for each party.
 
 ```{r}
 parties <- facebook |>
@@ -54,8 +54,9 @@ parties <- facebook |>
            Rating == "mostly false" ~ 2,
            Rating == "no factual content" ~ 1))
 party_accuracy <- parties |>
-  group_by(Party, accuracy_rating) |>
-  summarize(n = n())
+  group_by(Party, accuracy_rating)  |>
+  summarize(n = n()) |> 
+  mutate(n = if_else(Party == "Democrat", n/471, n/666)) 
 party_accuracy
 ```
 
@@ -67,9 +68,9 @@ accuracy_plot <- party_accuracy |>
   ggplot(aes(x = accuracy_rating, y = n)) +
   geom_bar(stat = "identity", aes(fill = Party), position = position_dodge()) +
   scale_fill_manual(values = c("Democrat" = "steelblue1", "Republican" = "indianred1")) +
-  labs(title = "Social Media Post Accuracy per Party", 
+  labs(title = "Percentage Social Media Post Accuracy per Party", 
   x = "Accuracy Rating", 
-  y = "Number of posts", 
+  y = "Proportion of total posts", 
   caption = "4: Mostly True
        3: Mixture of True and False
        2: Mostly False
@@ -80,8 +81,10 @@ accuracy_plot
 
 # Results: scatterplot, barplot or boxplot with regression and paragraph summarizing results
 
+To better visualize the results, I have added a linear regression of the data by creating a binary variable to represent Party. Because I have set the Democrat value to '1' and the Republican value to '0', a positive value would indicate higher average ratings for the Republican Party, and a negative value would indicate the opposite, higher average ratings for the Democratic Party.
 
-To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a higher accuracy rating than the media produced by the Democratic Party.
+
+Table summarizing the Average Accuracy Rating for each Party.
 
 ```{r}
 analysis <- parties |>
@@ -89,6 +92,19 @@ analysis <- parties |>
     summarize("Average Accuracy Rating" = mean(accuracy_rating))
 knitr::kable(analysis)
 ```
+
+
+Linear Regression analyzing the relationship between Partisan Affiliation and Accuracy of social media posts.
+
+```{r}
+parties <- parties |>
+  mutate(PartyBinary = if_else(Party == "Republican", 1, 0))
+model <- lm(accuracy_rating ~ PartyBinary, data = parties)
+summary(model)
+```
+The results of the linear regression indicate the average accuracy rating for the Democratic party is 3.023, as this is the Intercept, and the Democratic party was assigned the value '0'. The PartyBinary coefficient of 0.04421 indicates 
+
+To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a slightly higher accuracy rating on average than the media produced by the Democratic Party.
 
 # Conclusion
 
