@@ -1,7 +1,7 @@
 ---
-title: "PS270 Final Project"
+title: "Misinformation in Social Media in the context of Political Affiliation"
 author: "Natalie Thuente"
-description: "My final project"
+description: "PS270 Final Project"
 output:
   distill::distill_article:
     self_contained: false
@@ -11,38 +11,41 @@ output:
 
 Research Question: Is one political party more likely to post inaccurate or misleading data on social media than the other? This research is studying the relationship between political partisanship (Republican or Democrat) and accuracy of social media posts, this is to determine if there is a causal relationship between an individual's political affiliation and likelihood to spread inaccurate information. The data supporting this research has been obtained from: "https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data".
 
-My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent political events and the overall tone of hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, contesting the validity of the election, ultimately culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views and an abundance of emotional content could explain a lack of accuracy in Republican social media posts.
+My hypothesis is that the Republican party is more likely to curate false social media content. My behavioral explanation of this is rooted in recent political events and the overall tone of hostility since the 2020 election. The Republican party has been outspokenly discontent with the results of the 2020 election, contesting the validity of the election, ultimately culminating in the January 6th insurrection. These feelings of hostility have been expressed through many social media posts, and I believe that these extreme views and an abundance of emotional content could explain a lack of accuracy in Republican social media posts. This data is important as it could inform social media companies in trends of misinformation across platforms, and they would be more aware when creating policies to filter data and maintain truthful content.
 
 
 ```{r}
 library(tidyverse)
+library(ggplot2)
+library(showtext)
 facebook <- read_csv("facebook-fact-check.csv")
-facebook
 ```
 
-# Data: describe data source, key dependent and independent variables, how they are measured, plot summarizing dependent variable
-
+# Data
 
 My research was a cross-sectional design with data from: "https://www.kaggle.com/datasets/mrisdal/fact-checking-facebook-politics-pages/data". The explanatory variable of interest is the partisan affiliation of the social media post, which was determined by the partisan identity of the account creating the post. The response variable was the accuracy of post. This was measured by raters at Buzzfeed. Each rater was given a rotating selection of accounts from different parties on each day, with each rater being given the same criteria for how to review posts.
 
 Truth Categories:
 
-(4) Mostly True: The post and any related link or image are based on factual information and portray it accurately. This lets them interpret the event/info in their own way, so long as they do not misrepresent events, numbers, quotes, reactions, etc., or make information up. This rating does not allow for unsupported speculation or claims.
+4: Mostly True: The post and any related link or image are based on factual information and portray it accurately. This lets them interpret the event/info in their own way, so long as they do not misrepresent events, numbers, quotes, reactions, etc., or make information up. This rating does not allow for unsupported speculation or claims.
 
-(3) Mixture of True and False: Some elements of the information are factually accurate, but some elements or claims are not. This rating should be used when speculation or unfounded claims are mixed with real events, numbers, quotes, etc., or when the headline of the link being shared makes a false claim but the text of the story is largely accurate. It should also only be used when the unsupported or false information is roughly equal to the accurate information in the post or link. Finally, use this rating for news articles that are based on unconfirmed information.
+3: Mixture of True and False: Some elements of the information are factually accurate, but some elements or claims are not. This rating should be used when speculation or unfounded claims are mixed with real events, numbers, quotes, etc., or when the headline of the link being shared makes a false claim but the text of the story is largely accurate. It should also only be used when the unsupported or false information is roughly equal to the accurate information in the post or link. Finally, use this rating for news articles that are based on unconfirmed information.
 
-(2) Mostly False: Most or all of the information in the post or in the link being shared is inaccurate. This should also be used when the central claim being made is false.
+2: Mostly False: Most or all of the information in the post or in the link being shared is inaccurate. This should also be used when the central claim being made is false.
 
-(1) No Factual Content: This rating is used for posts that are pure opinion, comics, satire, or any other posts that do not make a factual claim. This is also the category to use for posts that are of the “Like this if you think…” variety.
+1: No Factual Content: This rating is used for posts that are pure opinion, comics, satire, or any other posts that do not make a factual claim. This is also the category to use for posts that are of the “Like this if you think…” variety.
 
 
 To disprove my hypothesis, the percentage of inaccurate posts created by Democratic accounts would have to be greater than that of Republican accounts
 
 
-This bar plot shows the relationship between Party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the percentage of total posts that fall under this category for each party.
+This bar plot shows the relationship between party and accuracy of social media posts. For each accuracy category (4 being the most accurate, 1 being the least), the plot displays the percentage of total posts that fall under this category for each party.
 
 
-Count the percentage of total posts that fall under each accuracy classification for each party.
+
+Creating a table with the distribution of total posts that fall under each accuracy classification for each party:
+
+
 
 ```{r}
 parties <- facebook |>
@@ -56,15 +59,27 @@ parties <- facebook |>
 party_accuracy <- parties |>
   group_by(Party, accuracy_rating)  |>
   summarize(n = n()) |> 
-  mutate(p = n / sum(n))
+  mutate(p = n / sum(n)) 
+party_accuracy_table <- party_accuracy |>
+  select(p, accuracy_rating) |>
+  pivot_wider(names_from = accuracy_rating, values_from = p)
   # mutate(n = if_else(Party == "Democrat", n/471, n/666))
-party_accuracy
+knitr::kable(party_accuracy_table, digits = 2)
 ```
 
 
-Now that the data is organized by party and accuracy rating, this is a bar graph comparing the results.
+Now that the data is organized by party and accuracy rating, this visualization can be used to compare the results.
+
+
+
+Creating a barplot with the spread of accuracy ratings for each party:
+
+
 
 ```{r}
+showtext_auto()
+font_add_google("Roboto", "roboto")
+font_families()
 accuracy_plot <- party_accuracy |>
   ggplot(aes(x = accuracy_rating, y = n)) +
   geom_bar(stat = "identity", aes(fill = Party), position = position_dodge()) +
@@ -76,51 +91,101 @@ accuracy_plot <- party_accuracy |>
        3: Mixture of True and False
        2: Mostly False
        1: No Factual Content") +
-  theme_minimal()
+  theme(
+    text = element_text(family = "roboto"),
+    plot.title = element_text(size = 18, face = "bold"), 
+    axis.title.x = element_text(size = 14, face = "italic"),  
+    axis.title.y = element_text(size = 14, face = "italic"),
+    plot.background = element_rect(fill = "grey75", color = "black", size = 2),
+    panel.background = element_rect(fill = "grey94", color = NA)) 
 accuracy_plot
 ```
 
 
-# Results: scatterplot, barplot or boxplot with regression and paragraph summarizing results
+# Results
 
-To better visualize the results, I have added a linear regression of the data by creating a binary variable to represent Party. Because I have set the Democrat value to '1' and the Republican value to '0', a positive value would indicate higher average ratings for the Republican Party, and a negative value would indicate the opposite, higher average ratings for the Democratic Party.
+To better visualize the results, I have added a linear regression of the data by creating a binary variable to represent Party. Because I have set the Democrat value to '1' and the Republican value to '0', a positive value would indicate higher average ratings for the Republican party, and a negative value would indicate the opposite, higher average ratings for the Democratic party.
 
 
-Table summarizing the Average Accuracy Rating for each Party.
+
+Table summarizing the average accuracy rating for each party:
+
+
 
 ```{r}
 analysis <- parties |>
   group_by(Party) |>
     summarize("Average Accuracy Rating" = mean(accuracy_rating))
-knitr::kable(analysis)
+knitr::kable(analysis, digits = 3)
 ```
 
 
 Linear Regression analyzing the relationship between Partisan Affiliation and Accuracy of social media posts, holding all other variables constant.
 
+
+
+
+Creating the linear regression:
+
+
+
 ```{r}
-parties <- parties |>
-  mutate(PartyBinary = if_else(Party == "Republican", 1, 0))
 model <- lm(accuracy_rating ~ Party, data = parties)
 summary(model)
 ```
-The results of the linear regression, specifically the Intercept, indicate the average accuracy rating for the Democratic party is 3.023, as the Democratic party was assigned the value '0'. The PartyBinary coefficient of 0.04421 indicates posts from the Republican party had a higher Average Social Media Accuracy Ranking than posts from the Democratic party.
 
-Observing the resulting p-value of 0.5275, in the context of $\alpha$ value of 0.05, we are unable to reject the null hypothesis and determine a causal relationship between Party Affiliation and Social Media post Accuracy, finding the Party Affiliation to be not statistically significant in predicting Social Media post Accuracy.
+
+Creating a visualization of the values returned from our regression:
+
+
+
+```{r}
+regression <- broom::tidy(model)
+ggplot(regression, aes(x = term, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error), width = 0.2) +
+  labs(title = "Regression Coefficients", x = "Predictors", y = "Estimated Coefficients") +
+  theme(
+    text = element_text(family = "roboto"),
+    plot.title = element_text(size = 18, face = "bold"), 
+    axis.title.x = element_text(size = 14, face = "italic"),  
+    axis.title.y = element_text(size = 14, face = "italic"),
+    plot.background = element_rect(fill = "grey75", color = "black", size = 2),
+    panel.background = element_rect(fill = "grey94", color = NA)) 
+```
+
+The results of the linear regression, specifically the Intercept, indicate the average accuracy rating for the Democratic party is 3.023. The PartyRepublican coefficient of 0.04421 indicates posts from the Republican party had a higher Average Social Media Accuracy Ranking than posts from the Democratic party.
+
+Observing the resulting p-value of 0.5275, in the context of $\alpha$ value of 0.05, we are unable to reject the null hypothesis and determine a causal relationship between party affiliation and social media post accuracy, finding the party affiliation to be not statistically significant in predicting Social Media post Accuracy.
+
+
+Creating a Boxplot to visualize the spread of accuracy for each party:
+
+
 
 ```{r}
 box_plot <- parties |>
   ggplot(aes(x = Party, y = accuracy_rating)) +
   geom_boxplot(aes(fill = Party)) +
+  stat_summary(fun = mean, geom = "point", shape = 20, size = 3, color = "purple4") +
   scale_fill_manual(values = c("Democrat" = "steelblue1", "Republican" = "indianred1")) +
   labs(title = "Distribution of Accuracy Ratings by Party", x = "Political Party", y = "Accuracy Rating") +
-  theme_minimal()
+  theme(
+    text = element_text(family = "roboto"),
+    plot.title = element_text(size = 18, face = "bold"), 
+    axis.title.x = element_text(size = 14, face = "italic"),  
+    axis.title.y = element_text(size = 14, face = "italic"),
+    plot.background = element_rect(fill = "grey75", color = "black", size = 2),
+    panel.background = element_rect(fill = "grey94", color = NA)) 
 box_plot
 ```
-
+This boxplot shows the distribution of post accuracy for both political parties. It shows the median post accuracy for each party, with the purple dot representing the averages between both parties. The similarity in averages supports the previous conclusion that I am unable to determine causation of political party on social media post accuracy.
 
 
 # Conclusion
 
-To answer my research question, I was incorrect and my hypothesis proven wrong.
+My research sought to explore whether partisan affiliation is associated with the accuracy of social media posts, my hypothesis was that Republican-affiliated posts would be less accurate. However, the results did not support this hypothesis. The linear regression revealed no statistically significant relationship between political party affiliation and social media post accuracy, with similar average accuracy ratings for both parties.
 
+While the data offers valuable insights, several limitations constrain the analysis. The dataset may not fully capture the breadth of social media activity, as it is a relatively small dataset, and only contains posts from one social media platform, Facebook. The rating was also done by workers at Buzzfeed, so the dataset may not account for potential biases in the rating process. Furthermore, the cross-sectional nature of the study limits the ability to infer causation. 
+
+I would improve future research by incorporating a larger dataset with data from various social media platforms, accounting for the context or content of posts, and exploring the influence of specific current events, to better understand the relationship between political affiliation and misinformation on social media.
