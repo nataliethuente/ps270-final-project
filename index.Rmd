@@ -56,7 +56,8 @@ parties <- facebook |>
 party_accuracy <- parties |>
   group_by(Party, accuracy_rating)  |>
   summarize(n = n()) |> 
-  mutate(n = if_else(Party == "Democrat", n/471, n/666)) 
+  mutate(p = n / sum(n))
+  # mutate(n = if_else(Party == "Democrat", n/471, n/666))
 party_accuracy
 ```
 
@@ -100,7 +101,7 @@ Linear Regression analyzing the relationship between Partisan Affiliation and Ac
 ```{r}
 parties <- parties |>
   mutate(PartyBinary = if_else(Party == "Republican", 1, 0))
-model <- lm(accuracy_rating ~ PartyBinary, data = parties)
+model <- lm(accuracy_rating ~ Party, data = parties)
 summary(model)
 ```
 The results of the linear regression, specifically the Intercept, indicate the average accuracy rating for the Democratic party is 3.023, as the Democratic party was assigned the value '0'. The PartyBinary coefficient of 0.04421 indicates posts from the Republican party had a higher Average Social Media Accuracy Ranking than posts from the Democratic party.
@@ -108,7 +109,7 @@ The results of the linear regression, specifically the Intercept, indicate the a
 Observing the resulting p-value of 0.5275, in the context of $\alpha$ value of 0.05, we are unable to reject the null hypothesis and determine a causal relationship between Party Affiliation and Social Media post Accuracy, finding the Party Affiliation to be not statistically significant in predicting Social Media post Accuracy.
 
 ```{r}
-box_plot <- party_accuracy|>
+box_plot <- parties |>
   ggplot(aes(x = Party, y = accuracy_rating)) +
   geom_boxplot(aes(fill = Party)) +
   scale_fill_manual(values = c("Democrat" = "steelblue1", "Republican" = "indianred1")) +

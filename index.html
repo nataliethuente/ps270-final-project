@@ -1594,21 +1594,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>party_accuracy</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Party</span>, <span class='va'>accuracy_rating</span><span class='op'>)</span>  <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span> </span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>Party</span> <span class='op'>==</span> <span class='st'>"Democrat"</span>, <span class='va'>n</span><span class='op'>/</span><span class='fl'>471</span>, <span class='va'>n</span><span class='op'>/</span><span class='fl'>666</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>p <span class='op'>=</span> <span class='va'>n</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='co'># mutate(n = if_else(Party == "Democrat", n/471, n/666))</span></span>
 <span><span class='va'>party_accuracy</span></span></code></pre>
 </div>
-<pre><code># A tibble: 8 × 3
+<pre><code># A tibble: 8 × 4
 # Groups:   Party [2]
-  Party      accuracy_rating      n
-  &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;
-1 Democrat                 1 0.246 
-2 Democrat                 2 0.0467
-3 Democrat                 3 0.144 
-4 Democrat                 4 0.563 
-5 Republican               1 0.144 
-6 Republican               2 0.123 
-7 Republican               3 0.254 
-8 Republican               4 0.479 </code></pre>
+  Party      accuracy_rating     n      p
+  &lt;chr&gt;                &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
+1 Democrat                 1   116 0.246 
+2 Democrat                 2    22 0.0467
+3 Democrat                 3    68 0.144 
+4 Democrat                 4   265 0.563 
+5 Republican               1    96 0.144 
+6 Republican               2    82 0.123 
+7 Republican               3   169 0.254 
+8 Republican               4   319 0.479 </code></pre>
 </div>
 <p>Now that the data is organized by party and accuracy rating, this is a bar graph comparing the results.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1663,21 +1664,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>parties</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>PartyBinary <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>Party</span> <span class='op'>==</span> <span class='st'>"Republican"</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>accuracy_rating</span> <span class='op'>~</span> <span class='va'>PartyBinary</span>, data <span class='op'>=</span> <span class='va'>parties</span><span class='op'>)</span></span>
+<span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>accuracy_rating</span> <span class='op'>~</span> <span class='va'>Party</span>, data <span class='op'>=</span> <span class='va'>parties</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span></span></code></pre>
 </div>
 <pre><code>
 Call:
-lm(formula = accuracy_rating ~ PartyBinary, data = parties)
+lm(formula = accuracy_rating ~ Party, data = parties)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
 -2.0676 -1.0676  0.9324  0.9324  0.9767 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  3.02335    0.05355  56.464   &lt;2e-16 ***
-PartyBinary  0.04421    0.06996   0.632    0.528    
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      3.02335    0.05355  56.464   &lt;2e-16 ***
+PartyRepublican  0.04421    0.06996   0.632    0.528    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
@@ -1689,7 +1690,7 @@ F-statistic: 0.3994 on 1 and 1135 DF,  p-value: 0.5275</code></pre>
 <p>Observing the resulting p-value of 0.5275, in the context of <span class="math inline">\(\alpha\)</span> value of 0.05, we are unable to reject the null hypothesis and determine a causal relationship between Party Affiliation and Social Media post Accuracy, finding the Party Affiliation to be not statistically significant in predicting Social Media post Accuracy.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>box_plot</span> <span class='op'>&lt;-</span> <span class='va'>party_accuracy</span><span class='op'>|&gt;</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>box_plot</span> <span class='op'>&lt;-</span> <span class='va'>parties</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Party</span>, y <span class='op'>=</span> <span class='va'>accuracy_rating</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='va'>Party</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Democrat"</span> <span class='op'>=</span> <span class='st'>"steelblue1"</span>, <span class='st'>"Republican"</span> <span class='op'>=</span> <span class='st'>"indianred1"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
