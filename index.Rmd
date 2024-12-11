@@ -95,7 +95,6 @@ Creating a barplot with the spread of accuracy ratings for each party:
 ```{r}
 showtext_auto()
 font_add_google("Roboto", "roboto")
-font_families()
 accuracy_plot <- party_accuracy |>
   ggplot(aes(x = accuracy_rating, y = n)) +
   geom_bar(stat = "identity", aes(fill = Party), position = position_dodge()) +
