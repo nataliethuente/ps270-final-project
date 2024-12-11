@@ -74,7 +74,8 @@ accuracy_plot <- party_accuracy |>
   caption = "4: Mostly True
        3: Mixture of True and False
        2: Mostly False
-       1: No Factual Content")
+       1: No Factual Content") +
+  theme_minimal()
 accuracy_plot
 ```
 
@@ -94,7 +95,7 @@ knitr::kable(analysis)
 ```
 
 
-Linear Regression analyzing the relationship between Partisan Affiliation and Accuracy of social media posts.
+Linear Regression analyzing the relationship between Partisan Affiliation and Accuracy of social media posts, holding all other variables constant.
 
 ```{r}
 parties <- parties |>
@@ -102,9 +103,23 @@ parties <- parties |>
 model <- lm(accuracy_rating ~ PartyBinary, data = parties)
 summary(model)
 ```
-The results of the linear regression indicate the average accuracy rating for the Democratic party is 3.023, as this is the Intercept, and the Democratic party was assigned the value '0'. The PartyBinary coefficient of 0.04421 indicates 
+The results of the linear regression, specifically the Intercept, indicate the average accuracy rating for the Democratic party is 3.023, as the Democratic party was assigned the value '0'. The PartyBinary coefficient of 0.04421 indicates posts from the Republican party had a higher Average Social Media Accuracy Ranking than posts from the Democratic party.
 
-To answer my research question, I was incorrect and my hypothesis proven wrong. On average, the media produced by the Republican Party received a slightly higher accuracy rating on average than the media produced by the Democratic Party.
+Observing the resulting p-value of 0.5275, in the context of $\alpha$ value of 0.05, we are unable to reject the null hypothesis and determine a causal relationship between Party Affiliation and Social Media post Accuracy, finding the Party Affiliation to be not statistically significant in predicting Social Media post Accuracy.
+
+```{r}
+box_plot <- party_accuracy|>
+  ggplot(aes(x = Party, y = accuracy_rating)) +
+  geom_boxplot(aes(fill = Party)) +
+  scale_fill_manual(values = c("Democrat" = "steelblue1", "Republican" = "indianred1")) +
+  labs(title = "Distribution of Accuracy Ratings by Party", x = "Political Party", y = "Accuracy Rating") +
+  theme_minimal()
+box_plot
+```
+
+
 
 # Conclusion
+
+To answer my research question, I was incorrect and my hypothesis proven wrong.
 
